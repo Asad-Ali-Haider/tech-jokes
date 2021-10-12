@@ -1,0 +1,21 @@
+{
+    "name": "tech-jokes",
+    "short_name": "TJ.",
+    "description": "If you're like me and get tired by writing code all the day, its for you. This app will help you to enjoy your field and make you laugh.",
+    "icons": [
+      {
+        "src": "./img/icons/android-chrome-192x192.png",
+        "sizes": "192x192",
+        "type": "image/png"
+      },
+      {
+        "src": "./img/icons/android-chrome-512x512.png",
+        "sizes": "512x512",
+        "type": "image/png"
+      }
+    ],
+    "start_url": "/",
+    "display": "standalone",
+    "background_color": "#E5E7EB",
+    "theme_color": "#6366F1"
+  }
