@@ -8,7 +8,7 @@ module.exports = {
                     urlPattern: new RegExp('^https://v2.jokeapi.dev/joke/Programming'),
                     handler: 'networkFirst',
                     options: {
-                        networkTimeoutSeconds: 20,
+                        networkTimeoutSeconds: 30,
                         cacheName: 'api-cache',
                             cacheableResponse: {
                                 statuses: [0, 200]

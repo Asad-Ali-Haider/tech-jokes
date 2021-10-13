@@ -81,6 +81,9 @@
 <script>
 export default {
   name: 'Header',
+  props: {
+    darkMode: Boolean,
+  },
   data() {
     return {
       isOptionsExpanded: false,

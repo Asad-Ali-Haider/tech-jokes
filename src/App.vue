@@ -5,7 +5,7 @@
           <div class="flex flex-col justify-around h-full w-full p-3 md:p-6 overflow-y-auto">
             
             <!-- header -->
-            <Header @changeLanguageEvent="changeLanguage" />
+            <Header :darkMode="this.darkMode" @changeLanguageEvent="changeLanguage" />
 
             <!-- Content area -->
             <div class="flex justify-center items-center h-full">
@@ -29,6 +29,9 @@
 
             <!-- Footer -->
             <Footer />
+            <div v-if="showError" class="absolute bottom-24 left-1/2 -translate-x-1/2 -translate-y-1/2 px-3 py-1 rounded-2xl bg-red-500 text-center text-white transform">
+              {{ errorMsg }}
+            </div>
 
           </div>
       </div>
@@ -51,6 +54,7 @@ export default {
       language: "en",
       joke: '',
       msg: '',
+      showError: '',
       showMsg: false
     }
   },
@@ -71,24 +75,30 @@ export default {
     },
 
     async callNewJoke(){
-      const response = await this.fetchAJoke()
-      // console.log(joke)
-      if(!response.error){
-        if(response.type == 'single'){
-          this.joke = response.joke
+      if(navigator.onLine){
+        const response = await this.fetchAJoke()
+        // console.log(joke)
+        if(!response.error){
+          if(response.type == 'single'){
+            this.joke = response.joke
+          }
+          else{
+            this.joke = response.setup + '\n\n\n' + response.delivery
+          }
+        }
+        else if(response.code == 106){
+          this.joke = "Sorry, Jokes are not curently available in the selected language."
         }
         else{
-          this.joke = response.setup + '\n\n\n' + response.delivery
+          this.joke = "Sorry, something is not working fine."
         }
-      }
-      else if(response.code == 106){
-        this.joke = "Sorry, Jokes are not curently available in the selected language."
+        this.loading = false
       }
       else{
-        this.joke = "Sorry, something is not working fine."
+        this.errorMsg = "Check your internet connection!"
+        this.showError = true
+        setTimeout(() => this.showError = false, 1000);
       }
-      this.loading = false
-
     },
 
     async copyToClipboard() {
@@ -98,9 +108,9 @@ export default {
           this.showMsg = true
           setTimeout(() => this.showMsg = false, 800);
       } catch($e) {
-          this.msg = "Error!"
-          this.showMsg = true
-          setTimeout(() => this.showMsg = false, 800);
+          this.errorMsg = "Your device doesn't support!"
+          this.showError = true
+          setTimeout(() => this.showError = false, 1000);
       }
     },
 
